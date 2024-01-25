@@ -1,0 +1,264 @@
+#include <Novice.h>
+#include"Vector2.h"
+
+const char kWindowTitle[] = "LC1D_17_チバ_ダイチ";
+
+struct Player {
+	Vector2 pos;
+	Vector2 size;
+	float speed;
+};
+
+struct Map {
+	int x;
+	int y;
+};
+
+//void HitBox(Vector2 &pos,Vector2 &size,int &map,Vector2 blockSize,char* keys) {
+//	Vector2 leftTop = { 0 };
+//	Vector2 rightTop = { 0 };
+//	Vector2 leftBottom = { 0 };
+//	Vector2 rightBottom = { 0 };
+//
+//	Vector2 tmpLeftTop = { 0 };
+//	Vector2 tmpRightTop = { 0 };
+//	Vector2 tmpLeftBottom = { 0 };
+//	Vector2 tmpRightBottom = { 0 };
+//
+//	leftTop.x = (pos.x - (size.x * 0.5f)) / blockSize.x;
+//	leftTop.y = (pos.y - (size.x * 0.5f)) / blockSize.y;
+//	rightTop.x = (pos.x + (size.x * 0.5f) - 1) / blockSize.x;
+//	rightTop.y = (pos.y - (size.x * 0.5f)) / blockSize.y;
+//	leftBottom.x = (pos.x - (size.x * 0.5f)) / blockSize.x;
+//	leftBottom.y = (pos.y + (size.x * 0.5f) - 1) / blockSize.y;
+//	rightBottom.x = (pos.x + (size.x * 0.5f) - 1) / blockSize.x;
+//	rightBottom.y = (pos.y + (size.x * 0.5f) - 1) / blockSize.y;
+//
+//	if (keys[DIK_D]){
+//
+//	}
+//
+//
+//}
+
+
+// Windowsアプリでのエントリーポイント(main関数)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+
+	// ライブラリの初期化
+	Novice::Initialize(kWindowTitle, 800, 832);
+	Player player{
+		Vector2(40.0f,40.0f),
+		Vector2(16.0f,16.0f),
+		4.0f
+	};
+
+	//Map playerMap{
+	//	1,1
+	//};
+
+	int map[25][25]{
+			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+			{1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+	};
+
+	Vector2 blockSize = Vector2(32.0f, 32.0f);
+
+	Vector2 leftTop = { 0 };
+	Vector2 rightTop = { 0 };
+	Vector2 leftBottom = { 0 };
+	Vector2 rightBottom = { 0 };
+
+	Vector2 tmpLeftTop = { 0 };
+	Vector2 tmpRightTop = { 0 };
+	Vector2 tmpLeftBottom = { 0 };
+	Vector2 tmpRightBottom = { 0 };
+
+	//int tmpSpeed = int(player.speed);
+
+
+	int BlockGH = Novice::LoadTexture("./block.png");
+
+	// キー入力結果を受け取る箱
+	char keys[256] = { 0 };
+	char preKeys[256] = { 0 };
+
+	// ウィンドウの×ボタンが押されるまでループ
+	while (Novice::ProcessMessage() == 0) {
+		// フレームの開始
+		Novice::BeginFrame();
+
+		// キー入力を受け取る
+		memcpy(preKeys, keys, 256);
+		Novice::GetHitKeyStateAll(keys);
+
+		///
+		/// ↓更新処理ここから
+		///
+
+		leftTop.x = (player.pos.x - (player.size.x * 0.5f)) / blockSize.x;
+		leftTop.y = (player.pos.y - (player.size.x * 0.5f)) / blockSize.y;
+		rightTop.x = (player.pos.x + (player.size.x * 0.5f) - 1) / blockSize.x;
+		rightTop.y = (player.pos.y - (player.size.x * 0.5f)) / blockSize.y;
+		leftBottom.x = (player.pos.x - (player.size.x * 0.5f)) / blockSize.x;
+		leftBottom.y = (player.pos.y + (player.size.x * 0.5f) - 1) / blockSize.y;
+		rightBottom.x = (player.pos.x + (player.size.x * 0.5f) - 1) / blockSize.x;
+		rightBottom.y = (player.pos.y + (player.size.x * 0.5f) - 1) / blockSize.y;
+
+		//playerMap.x = int((player.pos.x - (player.size.x * 0.5f)) / blockSize.x);
+		//playerMap.y = int((player.pos.y - (player.size.y * 0.5f)) / blockSize.y);
+
+
+
+		if (keys[DIK_D]) {
+			tmpRightTop.x = (player.pos.x - (player.size.x * 0.5f) + player.speed) / blockSize.x;
+			tmpRightBottom.x = (player.pos.x + (player.size.x * 0.5f) - 1 + player.speed) / blockSize.x;
+
+			if (!(map[(int)rightBottom.y][(int)tmpRightBottom.x] == 1)) {
+				if (!(map[(int)rightTop.y][(int)tmpRightTop.x] == 1)) {
+					player.pos.x += player.speed;
+				}
+			}
+		}
+		if (keys[DIK_A]) {
+			tmpLeftTop.x = (player.pos.x - (player.size.x * 0.5f) - player.speed) / blockSize.x;
+			tmpLeftBottom.x = (player.pos.x - (player.size.x * 0.5f) - 1 + player.speed) / blockSize.x;
+
+			if (!(map[(int)leftBottom.y][(int)tmpLeftBottom.x] == 1)) {
+				if (!(map[(int)leftTop.y][(int)tmpLeftTop.x] == 1)) {
+					player.pos.x -= player.speed;
+				}
+			}
+		}
+		if (keys[DIK_W]) {
+			tmpLeftTop.y = (player.pos.y - (player.size.x * 0.5f) - player.speed) / blockSize.y;
+			tmpRightTop.y = (player.pos.y - (player.size.x * 0.5f) - player.speed) / blockSize.y;
+
+			if (!(map[(int)tmpRightTop.y][(int)rightTop.x] == 1)) {
+				if (!(map[(int)tmpLeftTop.y][(int)leftTop.x] == 1)) {
+					player.pos.y -= player.speed;
+				}
+			}
+		}
+		if (keys[DIK_S]) {
+
+			tmpLeftBottom.y = (player.pos.y + (player.size.x * 0.5f) + player.speed) / blockSize.y;
+			tmpRightBottom.y = (player.pos.y + (player.size.x * 0.5f) + player.speed) / blockSize.y;
+
+			/*playerとblockの距離が0になるまで計算するようにしたい*/
+			if (map[(int)tmpLeftBottom.y][(int)leftBottom.x] == 1) {
+				if (map[(int)tmpRightBottom.y][(int)rightBottom.x] == 1) {
+					if (!(tmpLeftBottom.y - leftBottom.y == 0)) {
+						if (!(tmpRightBottom.y - rightBottom.y == 0)) {
+							while (true) {
+								/*player.speed = tmpRightBottom.y-rightBottom.y;
+								tmpLeftBottom.y = (player.pos.y + (player.size.x * 0.5f) + player.speed) / blockSize.y;
+								tmpRightBottom.y = (player.pos.y + (player.size.x * 0.5f) + player.speed) / blockSize.y;*/
+								player.speed = 1.0f;
+								if (map[(int)tmpRightBottom.y][(int)rightBottom.x] == 1) {
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+
+			/*進んだ先がブロックじゃなかったら進む*/
+			if (!(map[(int)tmpLeftBottom.y][(int)leftBottom.x] == 1)) {
+				if (!(map[(int)tmpRightBottom.y][(int)rightBottom.x] == 1)) {
+					player.pos.y += player.speed;
+
+				}
+			}
+
+			/*ブロックとプレイヤーの間の距離が０だったら進む*/
+			if (tmpRightBottom.y - (tmpRightBottom.y-rightBottom.y) == 0) {
+				player.pos.y += player.speed;
+				player.speed = 4.0f;
+			}
+		}
+
+
+		///
+		/// ↑更新処理ここまで
+		///
+
+		///
+		/// ↓描画処理ここから
+		///
+
+		Novice::DrawBox(
+			0, 0,
+			800, 800,
+			0.0f, BLACK, kFillModeSolid
+		);
+
+		Novice::DrawBox(
+			(int)(player.pos.x - (player.size.x * 0.5f)), (int)(player.pos.y - (player.size.y * 0.5f)),
+			(int)player.size.x, (int)player.size.y,
+			0.0f,
+			RED,
+			kFillModeSolid
+		);
+		for (int X = 0; X < 25; X++) {
+			for (int y = 0; y < 25; y++) {
+				if (map[X][y] == 1) {
+					Novice::DrawSprite(
+						(int)blockSize.y * y, (int)blockSize.x * X,
+						BlockGH,
+						1.0f, 1.0f,
+						0.0f, 0xFFFFFFFF);
+				}
+
+
+			}
+
+		}
+		Novice::ScreenPrintf(32, 800, "player.pos.x=%.1f", player.pos.x);
+		Novice::ScreenPrintf(32, 816, "player.pos.y=%.1f", player.pos.y);
+
+
+
+
+		///
+		/// ↑描画処理ここまで
+		///
+
+		// フレームの終了
+		Novice::EndFrame();
+
+		// ESCキーが押されたらループを抜ける
+		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
+			break;
+		}
+	}
+
+	// ライブラリの終了
+	Novice::Finalize();
+	return 0;
+}
